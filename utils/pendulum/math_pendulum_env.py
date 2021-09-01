@@ -85,16 +85,16 @@ class MathPendulumEnv(Env):
         self.viewer = None
 
         #TODO: Remove
-        # from thesis.pendulum_roa import PendulumRegionOfAttraction
-        # theta_roa = 3.092505268377452
-        # vertices = np.array([
-        #     [-theta_roa, 12.762720155208534],  # LeftUp
-        #     [theta_roa, -5.890486225480862],  # RightUp
-        #     [theta_roa, -12.762720155208534],  # RightLow
-        #     [-theta_roa, 5.890486225480862]  # LeftLow
-        # ])
+        from utils.pendulum.pendulum_roa import PendulumRegionOfAttraction
+        theta_roa = 3.092505268377452
+        vertices = np.array([
+            [-theta_roa, 12.762720155208534],  # LeftUp
+            [theta_roa, -5.890486225480862],  # RightUp
+            [theta_roa, -12.762720155208534],  # RightLow
+            [-theta_roa, 5.890486225480862]  # LeftLow
+        ])
 
-        #self._safe_region = PendulumRegionOfAttraction(vertices=vertices)
+        self._safe_region = PendulumRegionOfAttraction(vertices=vertices)
 
         self.reset()
 
@@ -103,10 +103,10 @@ class MathPendulumEnv(Env):
 
         # Start at theta=0; thdot=0
 
-        if self.init is not None and self.init == "random":
-            self.state = np.asarray(self._safe_region.sample())
-        else:
+        if self.init is not None and self.init == "zero":
             self.state = np.array([0, 0])
+        else:
+            self.state = np.asarray(self._safe_region.sample())
 
         self.last_action = None
 
