@@ -123,7 +123,7 @@ class MathPendulumEnv(Env):
         return self._get_obs(theta, thdot), self._get_reward(theta, thdot, action), False, {}
 
     def dynamics(self, theta: float, thdot: float, torque: float) -> Tuple[float, float]:
-        new_theta = theta + self.dt * thdot
+        new_theta = theta + self.dt * thdot #TODO: VECENV
         new_thdot = thdot + self.dt * ((self.g / self.l) * math.sin(theta) + 1. / (self.m * self.l ** 2) * torque[0]) #VECENV
         return [new_theta, new_thdot]
 
