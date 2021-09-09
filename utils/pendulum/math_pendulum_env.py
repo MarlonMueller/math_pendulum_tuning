@@ -21,16 +21,16 @@ class MathPendulumEnv(Env):
     def is_safe_action(env: Env, safe_region, action: float):
         theta, thdot = env.state
         state = env.dynamics(theta, thdot, action)
+        return state in safe_region
 
-        error_theta = (1/800) * (9.81 + action)
-        error_thdot = (9.81 ** 2 / 1600) + (9.81 * action / 800) #TODO: Replace with general
-
-        if state + [error_theta, error_thdot] in safe_region and\
-            state + [error_theta, -error_thdot] in safe_region and\
-            state + [-error_theta, -error_thdot] in safe_region and\
-            state + [-error_theta, error_thdot] in safe_region:
-            return True
-        return False
+        #error_theta = (1/800) * (9.81 + action)
+        #error_thdot = (9.81 ** 2 / 1600) + (9.81 * action / 800) #TODO: Replace with general
+        # if state + [error_theta, error_thdot] in safe_region and\
+        #     state + [error_theta, -error_thdot] in safe_region and\
+        #     state + [-error_theta, -error_thdot] in safe_region and\
+        #     state + [-error_theta, error_thdot] in safe_region:
+        #     return True
+        # return False
 
     @staticmethod
     def safe_action(env: Env, safe_region, action: float):

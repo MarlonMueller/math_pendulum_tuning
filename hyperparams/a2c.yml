@@ -23,8 +23,6 @@ MathPendulum-v0:
   use_rms_prop: True
   normalize_advantage: False
   learning_rate: lin_7e-4
-  use_sde: True
-  policy_kwargs: "dict(log_std_init=-2, ortho_init=False)"
 
 CartPole-v1:
   n_envs: 8
