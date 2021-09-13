@@ -16,7 +16,7 @@ def sample_ppo_params(trial: optuna.Trial) -> Dict[str, Any]:
     :return:
     """
 
-    n_epochs = trial.suggest_categorical("n_epochs", [1, 2, 5, 10, 20]) #PPO
+    n_epochs = trial.suggest_categorical("n_epochs", [1, 2, 5, 10]) #PPO
     batch_size = trial.suggest_categorical("batch_size", [2, 4, 8, 16, 32, 64, 128, 256, 512]) #PPO
     clip_range = trial.suggest_categorical("clip_range", [0.1, 0.2, 0.3, 0.4]) #PPO
 
@@ -24,7 +24,7 @@ def sample_ppo_params(trial: optuna.Trial) -> Dict[str, Any]:
     n_steps = trial.suggest_categorical("n_steps", [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048]) #SAME
     gamma = trial.suggest_categorical("gamma", [0.9, 0.95, 0.98, 0.99, 0.995, 0.999, 0.9999]) #SAME
     learning_rate = trial.suggest_loguniform("learning_rate", 1e-5, 1) #SAME
-    lr_schedule = trial.suggest_categorical('lr_schedule', ['linear', 'constant']) #SAME
+    lr_schedule = trial.suggest_categorical('lr_schedule', ['constant']) #SAME
     ent_coef = trial.suggest_loguniform("ent_coef", 0.00000001, 0.1) #SAME
     gae_lambda = trial.suggest_categorical("gae_lambda", [0.8, 0.9, 0.92, 0.95, 0.98, 0.99, 1.0]) #SAME
     max_grad_norm = trial.suggest_categorical("max_grad_norm", [0.3, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 2, 5]) #SAME
@@ -83,7 +83,7 @@ def sample_a2c_params(trial: optuna.Trial) -> Dict[str, Any]:
     n_steps = trial.suggest_categorical("n_steps", [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048])  # SAME
     gamma = trial.suggest_categorical("gamma", [0.9, 0.95, 0.98, 0.99, 0.995, 0.999, 0.9999])  # SAME
     learning_rate = trial.suggest_loguniform("learning_rate", 1e-5, 1)  # SAME
-    lr_schedule = trial.suggest_categorical('lr_schedule', ['linear', 'constant'])  # SAME
+    lr_schedule = trial.suggest_categorical('lr_schedule', ['constant'])  # SAME
     ent_coef = trial.suggest_loguniform("ent_coef", 0.00000001, 0.1)  # SAME
     gae_lambda = trial.suggest_categorical("gae_lambda", [0.8, 0.9, 0.92, 0.95, 0.98, 0.99, 1.0])  # SAME
     max_grad_norm = trial.suggest_categorical("max_grad_norm", [0.3, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 2, 5])  # SAME
