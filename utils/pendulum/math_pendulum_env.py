@@ -66,15 +66,10 @@ class MathPendulumEnv(Env):
         from gym.spaces import Discrete
         #self.action_space = Discrete(15)
 
-        max_torque = 30.898877999566082
-        self.action_space = Box(
-            low=-max_torque,
-            high=max_torque,
-            shape=(1,),
-            dtype=np.float32
-        )
+        self.action_space = Discrete(21)
 
-        obs_high = np.array([1., 1., np.inf], dtype=np.float32)
+        obs_high = np.array([np.inf, np.inf], dtype=np.float32)
+        #obs_high = np.array([1., 1., np.inf], dtype=np.float32)
         self.observation_space = Box(
             low=-obs_high,
             high=obs_high,
@@ -102,18 +97,13 @@ class MathPendulumEnv(Env):
     def reset(self) -> GymObs:
 
         # Start at theta=0; thdot=0
-
-        if self.init is not None and self.init == "zero":
-            self.state = np.array([0, 0])
-        else:
-            self.state = np.asarray(self._safe_region.sample())
-
+        self.state = np.asarray(self._safe_region.sample())
         self.last_action = None
-
         return self._get_obs(*self.state)
 
     def step(self, action: Union[float, np.ndarray]) -> GymStepReturn:
         theta, thdot = self.state
+        action = 3 * (action - 10)
 
         #self.state[:] = self.dynamics(theta, thdot, action)
         theta, thdot =  self.dynamics(theta, thdot, action)
@@ -128,19 +118,16 @@ class MathPendulumEnv(Env):
         return [new_theta, new_thdot]
 
     def _get_obs(self, theta, thdot) -> GymObs:
-        return np.array([cos(theta), sin(theta), thdot], dtype=object)
+        return np.array([theta, thdot], dtype=object)
+        #return np.array([cos(theta), sin(theta), thdot], dtype=object)
 
     def _get_reward(self, theta: float, thdot: float, action: Union[int, np.ndarray]) -> float:
-        if self.reward is not None: #TODO: Clean
-            # #Opposing -
-            return -(.5 * abs(action) + abs(self._norm_theta(theta)) + abs(.1 * thdot))
-        else: #Safety
-            det_12 = 10.62620981660255
-            max_theta = 3.092505268377452
-            return -max(
-                abs((theta * 3.436116964863835) / det_12),
-                abs((theta * 9.326603190344699 + thdot * max_theta) / det_12) #Try: **2/Action
-            )
+        det_12 = 10.62620981660255
+        max_theta = 3.092505268377452
+        return -max(
+            abs((theta * 3.436116964863835) / det_12),
+            abs((theta * 9.326603190344699 + thdot * max_theta) / det_12) #Try: **2/Action
+        )
 
 
     def _norm_theta(self, theta: float) -> float:
