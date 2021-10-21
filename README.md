@@ -1,11 +1,22 @@
 # General
 This auxiliary repository can be used to tune the mathematical pendulum environment used [here]().
 
-The repository adapts [RL Baselines3 Zoo](https://github.com/DLR-RM/rl-baselines3-zoo)'s tuning procedure.
+The repository adapts [RL Baselines3 Zoo](https://github.com/DLR-RM/rl-baselines3-zoo)'s tuning procedure.<br />
+RL Baselines3 Zoo uses [Optuna](https://optuna.org) for optimizing the hyperparameters.<br />
+Please have a look at the main repository and `RL Baselines3 Zoo/README.md` for more information.<br />
 
-RL Baselines3 Zoo uses [Optuna](https://optuna.org) for optimizing the hyperparameters.
+## Example
 
-Please have a look at the main repository and `RL Baselines3 Zoo/README.md` for more information.
+```
+taskset --cpu-list 0 python3.8 -m train --env MathPendulum-v0 -optimize --n-trials 500 --n-jobs 1 --sampler skopt --pruner none --n-startup-trials 10 --n-evaluations 1 --algo a2c  -n 75000 --eval-episodes 25 --no-optim-plots
+```
+
+```
+taskset --cpu-list 0 python3.8 -m train --env MathPendulum-v0 -optimize --n-trials 500 --n-jobs 1 --sampler skopt --pruner none --n-startup-trials 10 --n-evaluations 1 --algo ppo  -n 75000 --eval-episodes 25 --no-optim-plots
+```
+
+Note that these examples only tune for final reward performance since --n-evaluations 1.<br />
+Please have a look at the main repository and `RL Baselines3 Zoo/train.py` for more information.
 
 # Adapted Project Structure
 To modify or extend this work, note that the following files have been added or modified compared to RL Baselines3 Zoo (Sep. 2021). The modifications affect only A2C and PPO. A specific environment configuration is hard-coded.
