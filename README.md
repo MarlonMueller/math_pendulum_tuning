@@ -16,7 +16,7 @@ taskset --cpu-list 0 python3.8 -m train --env MathPendulum-v0 -optimize --n-tria
 ```
 
 Note that these examples only optimize final reward performance since --n-evaluations 1.<br />
-Please have a look at the main repository and `RL Baselines3 Zoo/train.py` for more information.
+Please have a look at `RL Baselines3 Zoo/train.py` for more information.
 
 # Adapted Project Structure
 To modify or extend this work, note that the following files have been added or modified compared to RL Baselines3 Zoo (Sep. 2021). The modifications affect only A2C and PPO. A specific environment configuration is hard-coded.
