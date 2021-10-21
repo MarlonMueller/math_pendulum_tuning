@@ -15,7 +15,7 @@ taskset --cpu-list 0 python3.8 -m train --env MathPendulum-v0 -optimize --n-tria
 taskset --cpu-list 0 python3.8 -m train --env MathPendulum-v0 -optimize --n-trials 500 --n-jobs 1 --sampler skopt --pruner none --n-startup-trials 10 --n-evaluations 1 --algo ppo  -n 75000 --eval-episodes 25 --no-optim-plots
 ```
 
-Note that these examples only tune for final reward performance since --n-evaluations 1.<br />
+Note that these examples only optimize final reward performance since --n-evaluations 1.<br />
 Please have a look at the main repository and `RL Baselines3 Zoo/train.py` for more information.
 
 # Adapted Project Structure
