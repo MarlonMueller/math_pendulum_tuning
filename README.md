@@ -10,7 +10,7 @@ To modify or extend this work, note that the following files have been added or 
 
 ```
 RL Baselines3 Zoo/
-├── hyperparams/ <- Untuned default hyperparameters
+├── hyperparams/ <- Untuned default hyperparameters mathematical pendulum
 │   ├──a2c.yml
 │   └──ppo.yml
 ├── utils/
@@ -23,6 +23,6 @@ RL Baselines3 Zoo/
 │   │   ├── pendulum_roa.py
 │   │   └── safe_region.py
 │   ├── hyperparams_opt.py <- Adapted hyperparameter samplers for A2C and PPO
-└── └── import_envs.py <- Register environment
+└── └── import_envs.py <- Register mathematical pendulum environment
 
 ```
