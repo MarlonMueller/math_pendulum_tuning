@@ -1,7 +1,9 @@
 # General
 This auxiliary repository can be used to tune the mathematical pendulum environment used [here]().
 
-The repository adapts [RL Baselines3 Zoo](https://github.com/DLR-RM/rl-baselines3-zoo)'s tuning procedure. RL Baselines3 Zoo uses [Optuna](https://optuna.org) for optimizing the hyperparameters.
+The repository adapts [RL Baselines3 Zoo](https://github.com/DLR-RM/rl-baselines3-zoo)'s tuning procedure.
+
+RL Baselines3 Zoo uses [Optuna](https://optuna.org) for optimizing the hyperparameters.
 
 Please have a look at the main repository and `RL Baselines3 Zoo/README.md` for more information.
 
