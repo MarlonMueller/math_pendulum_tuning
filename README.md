@@ -31,7 +31,6 @@ RL Baselines3 Zoo/
 │   │   ├── assets/
 │   │   │   ├── README.md
 │   │   │   └── clockwise.png
-│   │   ├── __init__.py
 │   │   ├── math_pendulum_env.py
 │   │   ├── pendulum_roa.py
 │   │   └── safe_region.py
