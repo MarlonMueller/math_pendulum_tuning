@@ -1,16 +1,14 @@
 from typing import Optional, Tuple
-
 from pypoman import compute_polytope_halfspaces
 from pypoman import compute_polytope_vertices
 
-import random
-
 import numpy as np
 
-#TODO: Old typing 3.7+
-#TODO: Typing np.ndarray
 
 class SafeRegion():
+    """
+    See SB3-Contrib REPO.
+    """
 
     def __init__(
             self,
@@ -31,7 +29,7 @@ class SafeRegion():
 
         self.rng = np.random.default_rng()
 
-    def __contains__(self, item): #TODO
+    def __contains__(self, item):
         return np.all(np.matmul(self._A, item) <= self._b + 1e-10)
 
     @property
@@ -49,7 +47,7 @@ class SafeRegion():
         return self._A, self._b
 
     @halfspaces.setter
-    def halfspaces(self, Ab:Tuple[np.ndarray, np.ndarray]) -> None:
+    def halfspaces(self, Ab: Tuple[np.ndarray, np.ndarray]) -> None:
         self._A, self._b = Ab
 
     @classmethod

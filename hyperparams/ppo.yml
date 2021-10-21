@@ -13,6 +13,7 @@ atari:
   vf_coef: 0.5
   ent_coef: 0.01
 
+#Untuned
 MathPendulum-v0:
   n_envs: 1
   n_timesteps: !!float 8e4

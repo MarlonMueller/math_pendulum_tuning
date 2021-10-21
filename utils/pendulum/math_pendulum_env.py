@@ -1,19 +1,20 @@
-from typing import Union, Optional, Tuple
+from typing import Union, Tuple
 
 from os import path
-import numpy as np
 from gym import Env
 from stable_baselines3.common.type_aliases import GymObs, GymStepReturn
 from gym.spaces import Box
 from stable_baselines3.common.vec_env import DummyVecEnv
 
-#from sb3_contrib.common.safety.safe_region import SafeRegion
-
 import numpy as np
 from numpy import sin, cos, pi
 import math
 
+
 class MathPendulumEnv(Env):
+    """
+    See SB3-Contrib REPO.
+    """
 
     metadata = {"render.modes": ["human", "rgb_array"], "video.frames_per_second": 30}
 
@@ -23,30 +24,15 @@ class MathPendulumEnv(Env):
         state = env.dynamics(theta, thdot, action)
         return state in safe_region
 
-        #error_theta = (1/800) * (9.81 + action)
-        #error_thdot = (9.81 ** 2 / 1600) + (9.81 * action / 800) #TODO: Replace with general
-        # if state + [error_theta, error_thdot] in safe_region and\
-        #     state + [error_theta, -error_thdot] in safe_region and\
-        #     state + [-error_theta, -error_thdot] in safe_region and\
-        #     state + [-error_theta, error_thdot] in safe_region:
-        #     return True
-        # return False
-
     @staticmethod
     def safe_action(env: Env, safe_region, action: float):
-        # LQR controller
-        # TODO: Maybe restrict torque here? Visuals.
-
-        gain_matrix = [19.670836678497427,6.351509533724627] #TODO
-
-
-        #TODO: GETATTR NOT IMPLEMENTED IN VECENVS
+        gain_matrix = [19.670836678497427, 6.351509533724627]  # TODO
         if isinstance(env, DummyVecEnv):
             return -np.dot(gain_matrix, env.get_attr("state")[0])
         else:
             return -np.dot(gain_matrix, env.state)
 
-    def __init__(self, init=None, reward=None):
+    def __init__(self):
 
         # Length
         self.l = 1.
@@ -57,19 +43,13 @@ class MathPendulumEnv(Env):
         # Timestep
         self.dt = .05
 
-        self.init = init #TODO
-        self.reward = reward
-
         self.rng = np.random.default_rng()
 
-        #TODO: Remove
         from gym.spaces import Discrete
-        #self.action_space = Discrete(15)
-
         self.action_space = Discrete(21)
 
         obs_high = np.array([np.inf, np.inf], dtype=np.float32)
-        #obs_high = np.array([1., 1., np.inf], dtype=np.float32)
+        # obs_high = np.array([1., 1., np.inf], dtype=np.float32)
         self.observation_space = Box(
             low=-obs_high,
             high=obs_high,
@@ -79,7 +59,6 @@ class MathPendulumEnv(Env):
         self.last_action = None
         self.viewer = None
 
-        #TODO: Remove
         from utils.pendulum.pendulum_roa import PendulumRegionOfAttraction
         theta_roa = 3.092505268377452
         vertices = np.array([
@@ -90,13 +69,9 @@ class MathPendulumEnv(Env):
         ])
 
         self._safe_region = PendulumRegionOfAttraction(vertices=vertices)
-
         self.reset()
 
-
     def reset(self) -> GymObs:
-
-        # Start at theta=0; thdot=0
         self.state = np.asarray(self._safe_region.sample())
         self.last_action = None
         return self._get_obs(*self.state)
@@ -105,47 +80,40 @@ class MathPendulumEnv(Env):
         theta, thdot = self.state
         action = 3 * (action - 10)
 
-        #self.state[:] = self.dynamics(theta, thdot, action)
-        theta, thdot =  self.dynamics(theta, thdot, action)
-        self.state = np.array([theta, thdot], dtype=object)
+        theta, thdot = self.dynamics(theta, thdot, action)
 
         self.last_action = action
+        self.state = np.array([theta, thdot], dtype=object)
         return self._get_obs(theta, thdot), self._get_reward(theta, thdot, action), False, {}
 
     def dynamics(self, theta: float, thdot: float, torque: float) -> Tuple[float, float]:
-        new_thdot = thdot + self.dt * ((self.g / self.l) * math.sin(theta) + 1. / (self.m * self.l ** 2) * torque[0]) #VECENV
-        new_theta = theta + self.dt * new_thdot #TODO: VECENV
+        new_thdot = thdot + self.dt * ((self.g / self.l) * math.sin(theta) + 1. / (self.m * self.l ** 2) * torque)
+        new_theta = theta + self.dt * new_thdot
         return [new_theta, new_thdot]
 
     def _get_obs(self, theta, thdot) -> GymObs:
         return np.array([theta, thdot], dtype=object)
-        #return np.array([cos(theta), sin(theta), thdot], dtype=object)
+        # return np.array([cos(theta), sin(theta), thdot], dtype=object)
 
     def _get_reward(self, theta: float, thdot: float, action: Union[int, np.ndarray]) -> float:
         det_12 = 10.62620981660255
         max_theta = 3.092505268377452
         return -max(
             abs((theta * 3.436116964863835) / det_12),
-            abs((theta * 9.326603190344699 + thdot * max_theta) / det_12) #Try: **2/Action
+            abs((theta * 9.326603190344699 + thdot * max_theta) / det_12)
         )
-
 
     def _norm_theta(self, theta: float) -> float:
         return ((theta + pi) % (2 * pi)) - pi
 
     def close(self):
-        #TODO: Pot. remove
-        #if self.eng in locals():
-         #   self.eng.quit()
-
         if self.viewer:
             self.viewer.close()
             self.viewer = None
 
-    def render(self, mode: str = "human", safe_region = None): #-> TODO:
+    def render(self, mode: str = "human", safe_region=None):  # -> TODO:
 
         if self.viewer is None:
-
             self.safety_violation = False
 
             from gym.envs.classic_control import rendering
