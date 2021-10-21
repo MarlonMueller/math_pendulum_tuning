@@ -26,15 +26,14 @@ RL Baselines3 Zoo/
 ├── hyperparams/ <- Untuned default hyperparameters mathematical pendulum
 │   ├──a2c.yml
 │   └──ppo.yml
-├── utils/
-│   ├── pendulum/ <- Mathematical pendulum environment
-│   │   ├── assets/
-│   │   │   ├── README.md
-│   │   │   └── clockwise.png
-│   │   ├── math_pendulum_env.py
-│   │   ├── pendulum_roa.py
-│   │   └── safe_region.py
-│   ├── hyperparams_opt.py <- Adapted hyperparameter samplers for A2C and PPO
-└── └── import_envs.py <- Register mathematical pendulum environment
-
+└── utils/
+    ├── pendulum/ <- Mathematical pendulum environment
+    │   ├── assets/
+    │   │   ├── README.md
+    │   │   └── clockwise.png
+    │   ├── math_pendulum_env.py
+    │   ├── pendulum_roa.py
+    │   └── safe_region.py
+    ├── hyperparams_opt.py <- Adapted hyperparameter samplers for A2C and PPO
+    └── import_envs.py <- Register mathematical pendulum environment
 ```
