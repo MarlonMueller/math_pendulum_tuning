@@ -19,8 +19,7 @@ taskset --cpu-list 0 python3.8 -m train --env MathPendulum-v0 -optimize --n-tria
 taskset --cpu-list 1 python3.8 -m train --env MathPendulum-v0 -optimize --n-trials 500 --n-jobs 1 --sampler skopt --pruner none --n-startup-trials 10 --n-evaluations 1 --algo ppo  -n 75000 --eval-episodes 25 --no-optim-plots
 ```
 
-Install missing packages with `pip3 install` (if you use the same venv as in the main repository, there are only a few of them)
-(works if *No module named 'torch._C'* occurs) or use the provided `requirements.txt`. 
+Install missing packages with `pip3 install` (works if *No module named 'torch._C'* occurs) or use the provided `requirements.txt`. 
 
 Note that these examples only optimize final reward performance since --n-evaluations 1.<br />
 Please have a look at `RL Baselines3 Zoo/train.py` for more information.
