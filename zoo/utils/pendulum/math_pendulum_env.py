@@ -26,7 +26,7 @@ class MathPendulumEnv(Env):
 
     @staticmethod
     def safe_action(env: Env, safe_region, action: float):
-        gain_matrix = [19.670836678497427, 6.351509533724627]  # TODO
+        gain_matrix = [19.670836678497427, 6.351509533724627]  
         if isinstance(env, DummyVecEnv):
             return -np.dot(gain_matrix, env.get_attr("state")[0])
         else:
