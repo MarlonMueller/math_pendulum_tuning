@@ -5,9 +5,10 @@ The repository adapts [RL Baselines3 Zoo](https://github.com/DLR-RM/rl-baselines
 RL Baselines3 Zoo uses [Optuna](https://optuna.org) for optimizing the hyperparameters.<br />
 Please have a look at `RL Baselines3 Zoo/README.md` for more information.<br />
 
+
 ## Example
 
-Run in ``Baselines3 Zoo/``
+Run in ``Baselines3 Zoo/`` (use a [tmux](https://linuxize.com/post/getting-started-with-tmux/) session or similar). **Note**: Depending on the configuration, this might take >24h.
 
 ```
 taskset --cpu-list 0 python3.8 -m train --env MathPendulum-v0 -optimize --n-trials 500 --n-jobs 1 --sampler skopt --pruner none --n-startup-trials 10 --n-evaluations 1 --algo a2c  -n 75000 --eval-episodes 25 --no-optim-plots
@@ -16,6 +17,8 @@ taskset --cpu-list 0 python3.8 -m train --env MathPendulum-v0 -optimize --n-tria
 ```
 taskset --cpu-list 1 python3.8 -m train --env MathPendulum-v0 -optimize --n-trials 500 --n-jobs 1 --sampler skopt --pruner none --n-startup-trials 10 --n-evaluations 1 --algo ppo  -n 75000 --eval-episodes 25 --no-optim-plots
 ```
+
+Install missing packages with `pip3 install` (if you use the same venv as in the main repository, there are only a few of them) or use the provided `requirements.txt`. 
 
 Note that these examples only optimize final reward performance since --n-evaluations 1.<br />
 Please have a look at `RL Baselines3 Zoo/train.py` for more information.
